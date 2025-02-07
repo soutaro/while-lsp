@@ -1,0 +1,20 @@
+<?php
+
+function GCD($x, $y) {
+  if ($x == 0) {
+    return $y;
+  }
+  if ($y == 0) {
+    return $x;
+  }
+
+  if ($x > $y) {
+    return GCD($x % $y, $y);
+  } else {
+    return GCD($x, $y % $x);
+  }
+}
+
+echo GCD(15, 5), PHP_EOL;
+
+echo 1,2,3;
