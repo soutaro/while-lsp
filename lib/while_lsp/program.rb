@@ -60,5 +60,108 @@ module WhileLSP
 
       [leading_lines.size, position]
     end
+
+    def locate_syntax(position)
+      return unless syntax
+      return if syntax.is_a?(Parser::Error)
+
+      syntax.each do |decl|
+        if decl.is_a?(SyntaxTree::FunctionDeclaration)
+          if located = locate_function(position, decl)
+            return located
+          end
+        else
+          if located = locate_statement(position, decl)
+            return located
+          end
+        end
+      end
+
+      nil
+    end
+
+    def locate_function(position, decl)
+      if decl.range.cover?(position)
+        decl.body.each do |stmt|
+          if located = locate_statement(position, stmt)
+            return located
+          end
+        end
+
+        decl
+      end
+    end
+
+    def locate_statement(position, stmt)
+      if stmt.range.cover?(position)
+        # @type var located: SyntaxTree::statement | SyntaxTree::expr | nil
+
+        case stmt
+        when SyntaxTree::AssignStatement, SyntaxTree::ReturnStatement
+          if located = locate_expr(position, stmt.value)
+            return located
+          end
+        when SyntaxTree::EchoStatement
+          stmt.args.each do |arg|
+            if located = locate_expr(position, arg)
+              return located
+            end
+          end
+        when SyntaxTree::IfStatement
+          if located = locate_expr(position, stmt.condition)
+            return located
+          end
+
+          (stmt.then_body + stmt.else_body).each do |stmt|
+            if located = locate_statement(position, stmt)
+              return located
+            end
+          end
+        when SyntaxTree::WhileStatement
+          if located = locate_expr(position, stmt.condition)
+            return located
+          end
+
+          stmt.body.each do |stmt|
+            if located = locate_statement(position, stmt)
+              return located
+            end
+          end
+        end
+
+        stmt
+      end
+    end
+
+    def locate_expr(position, expr)
+      if expr.range.cover?(position)
+        case expr
+        when SyntaxTree::VarExpr, SyntaxTree::IntExpr, SyntaxTree::PHPEOLExpr
+          # nop
+        when SyntaxTree::FunctionCallExpr
+          expr.args.each do |arg|
+            if located = locate_expr(position, arg)
+              return located
+            end
+          end
+        when SyntaxTree::Math3Expr, SyntaxTree::Math2Expr, SyntaxTree::Math1Expr
+          expr.exprs.each do |subexpr|
+            next if subexpr.is_a?(String)
+            if located = locate_expr(position, subexpr)
+              return located
+            end
+          end
+        when SyntaxTree::GtEqExpr, SyntaxTree::GtExpr, SyntaxTree::LtEqExpr, SyntaxTree::LtExpr, SyntaxTree::EqualExpr, SyntaxTree::NotEqualExpr
+          if located = locate_expr(position, expr.left)
+            return located
+          end
+          if located = locate_expr(position, expr.right)
+            return located
+          end
+        end
+
+        expr
+      end
+    end
   end
 end

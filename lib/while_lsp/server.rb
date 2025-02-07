@@ -16,6 +16,7 @@ module WhileLSP
             capabilities: {
               textDocumentSync: { openClose: true, change: 1 },
               completionProvider: { triggerCharacters: ["$"] },
+              hoverProvider: true
             }
           })
         when "shutdown"
@@ -72,6 +73,40 @@ module WhileLSP
           end
 
           lsp_response(id, items)
+        when "textDocument/hover"
+          id or raise
+
+          uri = params[:textDocument][:uri]
+          line = params[:position][:line]
+          character = params[:position][:character]
+
+          hover = nil #: untyped
+
+          if program = @files.fetch(uri, nil)
+            pos = program.position(line, character)
+            if syntax = program.locate_syntax(pos)
+              STDERR.puts "Located syntax: #{syntax.inspect}"
+              case syntax
+              when SyntaxTree::FunctionCallExpr
+                if typechecker = program.typechecker
+                  if function = typechecker.functions[syntax.name]
+                    start_line, start_char = program.line_char(syntax.range.begin)
+                    end_line, end_char = program.line_char(syntax.range.end)
+
+                    hover = {
+                      contents: "Function call: `#{function.name}(#{function.params.join(", ")})`",
+                      range: {
+                        start: { line: start_line, character: start_char },
+                        end: { line: end_line, character: end_char }
+                      }
+                    }
+                  end
+                end
+              end
+            end
+          end
+
+          lsp_response(id, hover)
         end
       end
     end

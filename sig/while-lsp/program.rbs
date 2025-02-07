@@ -25,5 +25,13 @@ module WhileLSP
     # Returns the pair of 0-origin line and character from the character position
     #
     def line_char: (Integer position) -> [Integer, Integer]
+
+    def locate_syntax: (Integer position) -> (SyntaxTree::statement | SyntaxTree::expr | SyntaxTree::FunctionDeclaration | nil)
+
+    def locate_expr: (Integer position, SyntaxTree::expr) -> SyntaxTree::expr?
+
+    def locate_statement: (Integer position, SyntaxTree::statement) -> (SyntaxTree::statement | SyntaxTree::expr | nil)
+
+    def locate_function: (Integer position, SyntaxTree::FunctionDeclaration) -> (SyntaxTree::FunctionDeclaration | SyntaxTree::statement | SyntaxTree::expr | nil)
   end
 end
