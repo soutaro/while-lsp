@@ -52,7 +52,7 @@ module WhileLSP
     IntExpr = Data.define(:value, :range)
 
     # Foo(expr, expr, ...)
-    FunctionCallExpr = Data.define(:name, :args, :range)
+    FunctionCallExpr = Data.define(:name, :args, :range, :name_range)
 
     # PHP_EOL
     PHPEOLExpr = Data.define(:range)

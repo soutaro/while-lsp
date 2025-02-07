@@ -6,7 +6,16 @@
 	"image": "mcr.microsoft.com/devcontainers/ruby:1-3.3-bullseye",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/php:1": {}
+	},
+
+	"workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces/while-lsp,type=bind",
+	"workspaceFolder": "/workspaces/while-lsp/sample",
+
+	"containerEnv": {
+	"XDEBUG_MODE": "off"
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

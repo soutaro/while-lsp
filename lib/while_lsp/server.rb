@@ -50,6 +50,8 @@ module WhileLSP
           uri = params[:textDocument][:uri]
           @files.delete(uri)
         when "textDocument/completion"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_completion
+
           id or raise
           items = [] #: Array[untyped]
 
@@ -74,11 +76,13 @@ module WhileLSP
 
           lsp_response(id, items)
         when "textDocument/hover"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_hover
+
           id or raise
 
-          uri = params[:textDocument][:uri]
-          line = params[:position][:line]
-          character = params[:position][:character]
+          uri = params[:textDocument][:uri] #: String
+          line = params[:position][:line] #: Integer
+          character = params[:position][:character] #: Integer
 
           hover = nil #: untyped
 
@@ -88,18 +92,21 @@ module WhileLSP
               STDERR.puts "Located syntax: #{syntax.inspect}"
               case syntax
               when SyntaxTree::FunctionCallExpr
-                if typechecker = program.typechecker
-                  if function = typechecker.functions[syntax.name]
-                    start_line, start_char = program.line_char(syntax.range.begin)
-                    end_line, end_char = program.line_char(syntax.range.end)
+                name_range = syntax.name_range
+                if name_range.cover?(pos)
+                  if typechecker = program.typechecker
+                    if function = typechecker.functions[syntax.name]
+                      start_line, start_char = program.line_char(name_range.begin)
+                      end_line, end_char = program.line_char(name_range.end)
 
-                    hover = {
-                      contents: "Function call: `#{function.name}(#{function.params.join(", ")})`",
-                      range: {
-                        start: { line: start_line, character: start_char },
-                        end: { line: end_line, character: end_char }
+                      hover = {
+                        contents: "Function call: `#{function.name}(#{function.params.join(", ")})`",
+                        range: {
+                          start: { line: start_line, character: start_char },
+                          end: { line: end_line, character: end_char }
+                        }
                       }
-                    }
+                    end
                   end
                 end
               end

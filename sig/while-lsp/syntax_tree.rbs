@@ -179,7 +179,9 @@ module WhileLSP
 
       attr_reader range: Range[Integer]
 
-      def initialize: (String name, Array[expr] args, Range[Integer] range) -> void
+      attr_reader name_range: Range[Integer]
+
+      def initialize: (String name, Array[expr] args, Range[Integer] range, Range[Integer] name_range) -> void
     end
 
     class PHPEOLExpr

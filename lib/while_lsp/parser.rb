@@ -375,8 +375,8 @@ module WhileLSP
         expr = parse_expr()
         consume(:kRPAREN)
         expr
-      when tok = consume_token?(:kFUNCNAME)
-        name = tok.value
+      when name_token = consume_token?(:kFUNCNAME)
+        name = name_token.value
         args = [] #: Array[SyntaxTree::expr]
 
         consume(:kLPAREN)
@@ -389,7 +389,7 @@ module WhileLSP
         end
         end_tok = consume(:kRPAREN)
 
-        SyntaxTree::FunctionCallExpr.new(name, args, concat_range(tok.range, end_tok.range))
+        SyntaxTree::FunctionCallExpr.new(name, args, concat_range(name_token.range, end_tok.range), name_token.range)
       else
         raise Error.new(current_token!.range, "Unexpected token for expr: #{current_token!.inspect}")
       end

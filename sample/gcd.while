@@ -1,5 +1,13 @@
 <?php
 
+function Abs($x) {
+  if ($x < 0) {
+    return 0 - $x;
+  } else {
+    return $x;
+  }
+}
+
 function GCD($x, $y) {
   if ($x == 0) {
     return $y;
@@ -16,5 +24,3 @@ function GCD($x, $y) {
 }
 
 echo GCD(15, 5), PHP_EOL;
-
-echo 1,2,3;
