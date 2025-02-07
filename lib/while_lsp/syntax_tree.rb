@@ -18,6 +18,9 @@ module WhileLSP
     # while (expr) { ... }
     WhileStatement = Data.define(:condition, :body, :range)
 
+    # Foo(expr, expr, ...)
+    FunctionCallStatement = Data.define(:expr, :range)
+
     # expr + expr - expr
     Math3Expr = Data.define(:exprs, :range)
 

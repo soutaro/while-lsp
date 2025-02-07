@@ -224,8 +224,8 @@ class ParserTest < Minitest::Test
     assert_instance_of WhileLSP::SyntaxTree::EchoStatement, stmt.else_body[0]
   end
 
-  def test_parse_statement_if
-    parser = WhileLSP::Parser.new("if ($x) { echo 1; } else { echo 2; }")
+  def test_parse_statement_if_no_else
+    parser = WhileLSP::Parser.new("if ($x) { echo 1; }")
     parser.advance_token()
 
     stmt = parser.parse_statement()
@@ -234,8 +234,18 @@ class ParserTest < Minitest::Test
     assert_equal 1, stmt.then_body.size
     assert_instance_of WhileLSP::SyntaxTree::EchoStatement, stmt.then_body[0]
 
-    assert_equal 1, stmt.else_body.size
-    assert_instance_of WhileLSP::SyntaxTree::EchoStatement, stmt.else_body[0]
+    assert_equal 0, stmt.else_body.size
+  end
+
+  def test_parse_statement_function_call
+    parser = WhileLSP::Parser.new("GCD(1, 2);")
+    parser.advance_token()
+
+    statement = parser.parse_statement()
+
+    assert_instance_of WhileLSP::SyntaxTree::FunctionCallStatement, statement
+
+    assert_instance_of WhileLSP::SyntaxTree::FunctionCallExpr, statement.expr
   end
 
   def test_parse_statement_while

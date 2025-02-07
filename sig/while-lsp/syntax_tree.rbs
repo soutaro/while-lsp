@@ -2,7 +2,7 @@ module WhileLSP
   module SyntaxTree
     type program = Array[FunctionDeclaration | statement]
 
-    type statement = AssignStatement | ReturnStatement | EchoStatement | IfStatement | WhileStatement
+    type statement = AssignStatement | ReturnStatement | EchoStatement | IfStatement | WhileStatement | FunctionCallStatement
 
     type expr = Math3Expr | Math2Expr | Math1Expr | EqualExpr | NotEqualExpr | LtExpr | LtEqExpr | GtExpr | GtEqExpr | VarExpr | IntExpr | FunctionCallExpr | PHPEOLExpr
 
@@ -64,6 +64,14 @@ module WhileLSP
       attr_reader range: Range[Integer]
 
       def initialize: (expr condition, Array[statement] body, Range[Integer] range) -> void
+    end
+
+    class FunctionCallStatement
+      attr_reader expr: FunctionCallExpr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (FunctionCallExpr expr, Range[Integer] range) -> void
     end
 
     class Math3Expr

@@ -127,6 +127,10 @@ module WhileLSP
               return located
             end
           end
+        when SyntaxTree::FunctionCallStatement
+          if located = locate_expr(position, stmt.expr)
+            return located
+          end
         end
 
         stmt

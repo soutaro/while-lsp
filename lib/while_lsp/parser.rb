@@ -134,7 +134,7 @@ module WhileLSP
           return program
         when :kFUNCTION
           program << parse_function_decl()
-        when :kECHO, :kVARNAME, :kWHILE, :kIF
+        when :kECHO, :kVARNAME, :kWHILE, :kIF, :kFUNCNAME
           program << parse_statement()
         else
           raise Error.new(current_token!.range, "Unexpected token: #{current_token.inspect}")
@@ -229,6 +229,12 @@ module WhileLSP
         close_token = consume(:kRBRACE)
 
         SyntaxTree::WhileStatement.new(condition, body, concat_range(while_token.range, close_token.range))
+
+      when current_token?(:kFUNCNAME)
+        expr = parse_expr() #: SyntaxTree::FunctionCallExpr
+        consume(:kSEMICOLON)
+        SyntaxTree::FunctionCallStatement.new(expr, expr.range)
+
       else
         raise Error.new(current_token!.range, "Unexpected token for statement: #{current_token!.inspect}")
       end

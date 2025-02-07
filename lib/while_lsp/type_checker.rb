@@ -68,6 +68,8 @@ module WhileLSP
         when SyntaxTree::WhileStatement
           type_check_expr(stmt.condition, env)
           type_check_statement(stmt.body, env)
+        when SyntaxTree::FunctionCallStatement
+          type_check_expr(stmt.expr, env)
         else
           raise "Unexpected statement: #{stmt.inspect}"
         end
