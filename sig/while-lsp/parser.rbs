@@ -1,0 +1,65 @@
+module WhileLSP
+  class Parser
+    class Token
+      attr_reader type: Symbol
+
+      attr_reader value: String
+
+      attr_reader position: Integer
+
+      def initialize: (Symbol type, String value, Integer position) -> void
+
+      def range: () -> Range[Integer]
+
+      def self.build: (Symbol type, StringScanner scanner) -> Token
+    end
+
+    class Error < StandardError
+      attr_reader range: Range[Integer]
+
+      def initialize: (Range[Integer] range, String message) -> void
+    end
+
+    attr_reader src: String
+
+    attr_reader scanner: StringScanner
+
+    attr_reader current_token: Token?
+
+    def initialize: (String src) -> void
+
+    def parse: () -> SyntaxTree::program
+
+    private
+
+    def current_token!: () -> Token
+
+    def current_token?: (*Symbol) -> bool
+
+    def advance_token: () -> void
+
+    def consume: (Symbol type) -> Token
+
+    def consume_token?: (*Symbol) -> Token?
+
+    def concat_range: (Range[Integer] | Integer, Range[Integer] | Integer) -> Range[Integer]
+
+    def parse_program: () -> SyntaxTree::program
+
+    def parse_function_decl: () -> SyntaxTree::FunctionDeclaration
+
+    def parse_statement: () -> SyntaxTree::statement
+
+    def parse_expr: () -> SyntaxTree::expr
+
+    def parse_expr4: () -> SyntaxTree::expr
+
+    def parse_expr3: () -> SyntaxTree::expr
+
+    def parse_expr2: () -> SyntaxTree::expr
+
+    def parse_expr1: () -> SyntaxTree::expr
+
+    def parse_expr0: () -> SyntaxTree::expr
+  end
+end

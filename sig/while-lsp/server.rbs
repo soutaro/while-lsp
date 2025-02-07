@@ -1,0 +1,17 @@
+module WhileLSP
+  class Server
+    @files: Hash[String, Program]
+
+    def initialize: () -> void
+
+    def start: () -> void
+
+    def lsp_diagnostics: (String uri, Program) -> { uri: String, diagnostics: Array[untyped] }?
+
+    def lsp_loop: () { (String, Integer?, untyped) -> void } -> void
+
+    def lsp_response: (Integer id, untyped result) -> void
+
+    def lsp_notification: (String method, untyped params) -> void
+  end
+end

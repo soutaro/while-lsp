@@ -1,0 +1,29 @@
+module WhileLSP
+  class Program
+    attr_reader uri: String
+
+    # ソースコードのテキスト
+    attr_reader src: String
+
+    # 構文木
+    attr_reader syntax: SyntaxTree::program | Parser::Error | nil
+
+    attr_reader typechecker: TypeChecker?
+
+    def initialize: (String uri) -> void
+
+    def update: (String text) -> void
+
+    @diagnostics: Array[diagnostic]
+
+    def diagnostics: () -> Array[diagnostic]?
+
+    # Returns the character position from (zero-origin) line and character
+    #
+    def position: (Integer line, Integer character) -> Integer
+
+    # Returns the pair of 0-origin line and character from the character position
+    #
+    def line_char: (Integer position) -> [Integer, Integer]
+  end
+end

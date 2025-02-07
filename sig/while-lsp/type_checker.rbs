@@ -1,0 +1,37 @@
+use WhileLSP::SyntaxTree::statement, WhileLSP::SyntaxTree::expr, WhileLSP::SyntaxTree::program
+
+module WhileLSP
+  class TypeChecker
+    class Function
+      attr_reader name: String
+
+      attr_reader params: Array[String]
+
+      attr_reader env: type_env
+
+      attr_reader body: Array[SyntaxTree::statement]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (String name, Array[String] params, type_env env, Array[statement] body, Range[Integer] range) -> void
+    end
+
+    attr_reader functions: Hash[String, Function]
+
+    attr_reader toplevel: Array[statement]
+
+    attr_reader toplevel_env: type_env
+
+    attr_reader diagnostics: Array[diagnostic]
+
+    def initialize: (program) -> void
+
+    def type_check: () -> void
+
+    def type_check_function: (Function) -> void
+
+    def type_check_statement: (Array[statement], type_env env) -> void
+
+    def type_check_expr: (expr, type_env env) -> ty
+  end
+end

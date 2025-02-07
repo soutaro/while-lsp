@@ -1,0 +1,191 @@
+module WhileLSP
+  module SyntaxTree
+    type program = Array[FunctionDeclaration | statement]
+
+    type statement = AssignStatement | ReturnStatement | EchoStatement | IfStatement | WhileStatement
+
+    type expr = Math3Expr | Math2Expr | Math1Expr | EqualExpr | NotEqualExpr | LtExpr | LtEqExpr | GtExpr | GtEqExpr | VarExpr | IntExpr | FunctionCallExpr | PHPEOLExpr
+
+    class FunctionDeclaration
+      attr_reader name: String
+
+      attr_reader params: Array[String]
+
+      attr_reader body: Array[statement]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (String name, Array[String] params, Array[statement] body, Range[Integer] range) -> void
+    end
+
+    class AssignStatement
+      attr_reader name: String
+
+      attr_reader value: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (String name, expr value, Range[Integer] range) -> void
+    end
+
+    class ReturnStatement
+      attr_reader value: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr value, Range[Integer] range) -> void
+    end
+
+    class EchoStatement
+      attr_reader args: Array[expr]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (Array[expr] args, Range[Integer] range) -> void
+    end
+
+    class IfStatement
+      attr_reader condition: expr
+
+      attr_reader then_body: Array[statement]
+
+      attr_reader else_body: Array[statement]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr condition, Array[statement] then_body, Array[statement] else_body, Range[Integer] range) -> void
+    end
+
+    class WhileStatement
+      attr_reader condition: expr
+
+      attr_reader body: Array[statement]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr condition, Array[statement] body, Range[Integer] range) -> void
+    end
+
+    class Math3Expr
+      type operator = "+" | "-"
+
+      attr_reader exprs: Array[expr | operator]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+    end
+
+    class Math2Expr
+      type operator = "%"
+
+      attr_reader exprs: Array[expr | operator]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+    end
+
+    class Math1Expr
+      type operator = "*" | "/"
+
+      attr_reader exprs: Array[expr | operator]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+    end
+
+    class EqualExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class NotEqualExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class LtExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class LtEqExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class GtExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class GtEqExpr
+      attr_reader left: expr
+
+      attr_reader right: expr
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (expr left, expr right, Range[Integer] range) -> void
+    end
+
+    class VarExpr
+      attr_reader name: String
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (String name, Range[Integer] range) -> void
+    end
+
+    class IntExpr
+      attr_reader value: Integer
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (Integer value, Range[Integer] range) -> void
+    end
+
+    class FunctionCallExpr
+      attr_reader name: String
+
+      attr_reader args: Array[expr]
+
+      attr_reader range: Range[Integer]
+
+      def initialize: (String name, Array[expr] args, Range[Integer] range) -> void
+    end
+
+    class PHPEOLExpr
+      attr_reader range: Range[Integer]
+
+      def initialize: (Range[Integer] range) -> void
+    end
+  end
+end

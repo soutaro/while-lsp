@@ -1,0 +1,17 @@
+module WhileLSP
+  type diagnostic = [
+    Range[Integer],     # Location
+    String,             # Code
+    String              # Message
+  ]
+
+  # 型
+  #
+  # - `:int` 整数型
+  # 
+  type ty = :int
+
+  # ローカル変数の型を記録するための **型環境**
+  #
+  type type_env = Hash[String, ty]
+end
