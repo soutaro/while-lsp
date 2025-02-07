@@ -1,6 +1,8 @@
 module WhileLSP
+  type range = [Integer, Integer]
+
   type diagnostic = [
-    Range[Integer],     # Location
+    range,              # Location
     String,             # Code
     String              # Message
   ]
@@ -8,7 +10,7 @@ module WhileLSP
   # 型
   #
   # - `:int` 整数型
-  # 
+  #
   type ty = :int
 
   # ローカル変数の型を記録するための **型環境**

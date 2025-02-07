@@ -81,7 +81,7 @@ module WhileLSP
     end
 
     def locate_function(position, decl)
-      if decl.range.cover?(position)
+      if decl.range[0] <= position && position <= decl.range[1]
         decl.body.each do |stmt|
           if located = locate_statement(position, stmt)
             return located
@@ -93,7 +93,7 @@ module WhileLSP
     end
 
     def locate_statement(position, stmt)
-      if stmt.range.cover?(position)
+      if stmt.range[0] <= position && position <= stmt.range[1]
         # @type var located: SyntaxTree::statement | SyntaxTree::expr | nil
 
         case stmt
@@ -138,7 +138,7 @@ module WhileLSP
     end
 
     def locate_expr(position, expr)
-      if expr.range.cover?(position)
+      if expr.range[0] <= position && position <= expr.range[1]
         case expr
         when SyntaxTree::VarExpr, SyntaxTree::IntExpr, SyntaxTree::PHPEOLExpr
           # nop

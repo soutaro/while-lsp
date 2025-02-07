@@ -13,9 +13,9 @@ module WhileLSP
 
       attr_reader body: Array[statement]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (String name, Array[String] params, Array[statement] body, Range[Integer] range) -> void
+      def initialize: (String name, Array[String] params, Array[statement] body, range range) -> void
     end
 
     class AssignStatement
@@ -23,25 +23,25 @@ module WhileLSP
 
       attr_reader value: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (String name, expr value, Range[Integer] range) -> void
+      def initialize: (String name, expr value, range range) -> void
     end
 
     class ReturnStatement
       attr_reader value: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr value, Range[Integer] range) -> void
+      def initialize: (expr value, range range) -> void
     end
 
     class EchoStatement
       attr_reader args: Array[expr]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Array[expr] args, Range[Integer] range) -> void
+      def initialize: (Array[expr] args, range range) -> void
     end
 
     class IfStatement
@@ -51,9 +51,9 @@ module WhileLSP
 
       attr_reader else_body: Array[statement]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr condition, Array[statement] then_body, Array[statement] else_body, Range[Integer] range) -> void
+      def initialize: (expr condition, Array[statement] then_body, Array[statement] else_body, range range) -> void
     end
 
     class WhileStatement
@@ -61,17 +61,17 @@ module WhileLSP
 
       attr_reader body: Array[statement]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr condition, Array[statement] body, Range[Integer] range) -> void
+      def initialize: (expr condition, Array[statement] body, range range) -> void
     end
 
     class FunctionCallStatement
       attr_reader expr: FunctionCallExpr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (FunctionCallExpr expr, Range[Integer] range) -> void
+      def initialize: (FunctionCallExpr expr, range range) -> void
     end
 
     class Math3Expr
@@ -79,9 +79,9 @@ module WhileLSP
 
       attr_reader exprs: Array[expr | operator]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+      def initialize: (Array[expr | operator] exprs, range range) -> void
     end
 
     class Math2Expr
@@ -89,9 +89,9 @@ module WhileLSP
 
       attr_reader exprs: Array[expr | operator]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+      def initialize: (Array[expr | operator] exprs, range range) -> void
     end
 
     class Math1Expr
@@ -99,9 +99,9 @@ module WhileLSP
 
       attr_reader exprs: Array[expr | operator]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Array[expr | operator] exprs, Range[Integer] range) -> void
+      def initialize: (Array[expr | operator] exprs, range range) -> void
     end
 
     class EqualExpr
@@ -109,9 +109,9 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class NotEqualExpr
@@ -119,9 +119,9 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class LtExpr
@@ -129,9 +129,9 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class LtEqExpr
@@ -139,9 +139,9 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class GtExpr
@@ -149,9 +149,9 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class GtEqExpr
@@ -159,25 +159,25 @@ module WhileLSP
 
       attr_reader right: expr
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (expr left, expr right, Range[Integer] range) -> void
+      def initialize: (expr left, expr right, range range) -> void
     end
 
     class VarExpr
       attr_reader name: String
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (String name, Range[Integer] range) -> void
+      def initialize: (String name, range range) -> void
     end
 
     class IntExpr
       attr_reader value: Integer
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Integer value, Range[Integer] range) -> void
+      def initialize: (Integer value, range range) -> void
     end
 
     class FunctionCallExpr
@@ -185,17 +185,17 @@ module WhileLSP
 
       attr_reader args: Array[expr]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      attr_reader name_range: Range[Integer]
+      attr_reader name_range: range
 
-      def initialize: (String name, Array[expr] args, Range[Integer] range, Range[Integer] name_range) -> void
+      def initialize: (String name, Array[expr] args, range range, range name_range) -> void
     end
 
     class PHPEOLExpr
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Range[Integer] range) -> void
+      def initialize: (range range) -> void
     end
   end
 end

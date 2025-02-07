@@ -6,7 +6,7 @@ module WhileLSP
 
     class Token
       def range
-        (position - value.size)...position
+        [position - value.size, position]
       end
 
       def self.build(type, scanner)
@@ -106,7 +106,7 @@ module WhileLSP
       when scanner.scan(/\d+/)
         @current_token = Token.build(:kINT, scanner)
       else
-        raise Error.new(scanner.charpos...src.size, "Unexpected token: #{scanner.rest}")
+        raise Error.new([scanner.charpos, src.size], "Unexpected token: #{scanner.rest}")
       end
       current_token
     end
@@ -354,17 +354,17 @@ module WhileLSP
     end
 
     def concat_range(range1, range2)
-      if range1.is_a?(Range)
-        if range2.is_a?(Range)
-          range1.begin...range2.end
+      if range1.is_a?(Array)
+        if range2.is_a?(Array)
+          [range1[0], range2[1]]
         else
-          range1.begin...range2
+          [range1[0], range2]
         end
       else
-        if range2.is_a?(Range)
-          range1...range2.end
+        if range2.is_a?(Array)
+          [range1[0], range2[1]]
         else
-          range1...range2
+          [range1, range2]
         end
       end
     end

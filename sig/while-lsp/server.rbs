@@ -1,6 +1,6 @@
 module WhileLSP
   class Server
-    @files: Hash[String, Program]
+    attr_reader open_files: Hash[String, Program]
 
     def initialize: () -> void
 

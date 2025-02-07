@@ -11,9 +11,9 @@ module WhileLSP
 
       attr_reader body: Array[SyntaxTree::statement]
 
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (String name, Array[String] params, type_env env, Array[statement] body, Range[Integer] range) -> void
+      def initialize: (String name, Array[String] params, type_env env, Array[statement] body, range range) -> void
     end
 
     attr_reader functions: Hash[String, Function]

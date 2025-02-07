@@ -9,15 +9,15 @@ module WhileLSP
 
       def initialize: (Symbol type, String value, Integer position) -> void
 
-      def range: () -> Range[Integer]
+      def range: () -> range
 
       def self.build: (Symbol type, StringScanner scanner) -> Token
     end
 
     class Error < StandardError
-      attr_reader range: Range[Integer]
+      attr_reader range: range
 
-      def initialize: (Range[Integer] range, String message) -> void
+      def initialize: (range range, String message) -> void
     end
 
     attr_reader src: String
@@ -42,7 +42,7 @@ module WhileLSP
 
     def consume_token?: (*Symbol) -> Token?
 
-    def concat_range: (Range[Integer] | Integer, Range[Integer] | Integer) -> Range[Integer]
+    def concat_range: (range | Integer, range | Integer) -> range
 
     def parse_program: () -> SyntaxTree::program
 
