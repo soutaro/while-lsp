@@ -45,35 +45,59 @@ module WhileLSP
     end
 
     def type_check_statement(stmts, env)
+      current_env = env
+
       stmts.each do |stmt|
         case stmt
         when SyntaxTree::AssignStatement
-          type = type_check_expr(stmt.value, env)
-          env[stmt.name] = type
+          type = type_check_expr(stmt.value, current_env)
+          current_env = current_env.merge(stmt.name => type)
+
         when SyntaxTree::ReturnStatement
-          type_check_expr(stmt.value, env)
+          type_check_expr(stmt.value, current_env)
+
         when SyntaxTree::EchoStatement
           stmt.args.each do |arg|
-            type_check_expr(arg, env)
+            type_check_expr(arg, current_env)
           end
-        when SyntaxTree::IfStatement
-          type_check_expr(stmt.condition, env)
-          then_env = env.dup
-          type_check_statement(stmt.then_body, then_env)
-          else_env = env.dup
-          type_check_statement(stmt.else_body, else_env)
 
-          env.merge!(then_env)
-          env.merge!(else_env)
+        when SyntaxTree::IfStatement
+          type_check_expr(stmt.condition, current_env)
+          then_env = type_check_statement(stmt.then_body, current_env.dup)
+          else_env = type_check_statement(stmt.else_body, current_env.dup)
+
+          current_env = merge_env(then_env, else_env)
+
         when SyntaxTree::WhileStatement
-          type_check_expr(stmt.condition, env)
-          type_check_statement(stmt.body, env)
+          type_check_expr(stmt.condition, current_env)
+          body_env = type_check_statement(stmt.body, current_env)
+          current_env = merge_env(current_env, body_env)
+
         when SyntaxTree::FunctionCallStatement
-          type_check_expr(stmt.expr, env)
+          type_check_expr(stmt.expr, current_env)
+
         else
           raise "Unexpected statement: #{stmt.inspect}"
         end
       end
+
+      current_env
+    end
+
+    def merge_env(env1, env2)
+      new_env = {} #: type_env
+
+      env1.each do |name, type1|
+        if type2 = env2[name]
+          if type1 == type2
+            new_env[name] = type1
+          else
+            raise "Type mismatch: #{name} is #{type1}, but #{type2} given"
+          end
+        end
+      end
+
+      new_env
     end
 
     def type_check_expr(expr, env)
