@@ -1,0 +1,72 @@
+{
+  "name": "while-lsp",
+  "displayName": "while-lsp",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://example.com"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "while",
+        "extensions": [
+          ".while"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "while",
+        "scopeName": "source.while",
+        "path": "./syntaxes/while.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "while-lsp.start",
+        "title": "Start WhileLSP language server"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "WhileLSP language server",
+        "properties": {
+          "while-lsp.serverFullPath": {
+            "type": "string",
+            "description": "Full path to the WhileLSP server Ruby script",
+            "default": ""
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "build": "npx vsce package -o while-lsp.vsix",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "@types/vscode": "^1.96.0",
+    "typescript": "^5.7.3",
+    "vsce": "^2.15.0"
+  }
+}
