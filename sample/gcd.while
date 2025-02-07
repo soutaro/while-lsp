@@ -24,13 +24,3 @@ function GCD($x, $y) {
 }
 
 echo GCD(15, 5), PHP_EOL;
-
-if (1 > 0) {
-  $x = 1;
-  $y = 3;
-  echo $x + $y, PHP_EOL;
-} else {
-  $x = 2;
-}
-
-echo $x + $y, PHP_EOL;

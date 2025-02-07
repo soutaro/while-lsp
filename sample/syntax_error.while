@@ -1,0 +1,9 @@
+function Factorial($n) {
+  if ($m == 0) {
+    return 1;
+  }} else {
+    return $n * Factorial($n - 1);
+  }
+}
+
+Factorial(1, 2);
