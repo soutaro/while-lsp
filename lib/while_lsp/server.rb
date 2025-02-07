@@ -16,7 +16,10 @@ module WhileLSP
             capabilities: {
               textDocumentSync: { openClose: true, change: 1 },
               completionProvider: { triggerCharacters: ["$"] },
-              hoverProvider: true
+              hoverProvider: true,
+              documentSymbolProvider: true,
+              definitionProvider: true,
+              renameProvider: true
             }
           })
         when "shutdown"
@@ -114,6 +117,20 @@ module WhileLSP
           end
 
           lsp_response(id, hover)
+
+        when "textDocument/documentSymbol"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
+
+          id or raise
+          lsp_response(id, nil)
+
+        when "textDocument/definition"
+          id or raise
+          lsp_response(id, [])
+
+        when "textDocument/rename"
+          id or raise
+          lsp_response(id, nil)
         end
       end
     end
