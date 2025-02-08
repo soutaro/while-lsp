@@ -135,10 +135,14 @@ module WhileLSP
           lsp_response(id, nil)
 
         when "textDocument/definition"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_definition
+
           id or raise
           lsp_response(id, [])
 
         when "textDocument/rename"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_rename
+
           id or raise
           lsp_response(id, nil)
         end
