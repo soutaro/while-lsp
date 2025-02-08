@@ -395,7 +395,12 @@ module WhileLSP
         end
         end_tok = consume(:kRPAREN)
 
-        SyntaxTree::FunctionCallExpr.new(name, args, concat_range(name_token.range, end_tok.range), name_token.range)
+        SyntaxTree::FunctionCallExpr.new(
+          name,
+          args,
+          concat_range(name_token.range, end_tok.range),
+          name_token.range
+        )
       else
         raise Error.new(current_token!.range, "Unexpected token for expr: #{current_token!.inspect}")
       end
