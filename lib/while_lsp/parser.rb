@@ -74,9 +74,9 @@ module WhileLSP
       when scanner.scan(/;/)
         @current_token = Token.build(:kSEMICOLON, scanner)
       when scanner.scan(/\$[a-z]\w*/)
-        @current_token = Token.build(:kVARNAME, scanner)
+        @current_token = Token.build(:tVARNAME, scanner)
       when scanner.scan(/[A-Z]\w*/)
-        @current_token = Token.build(:kFUNCNAME, scanner)
+        @current_token = Token.build(:tFUNCNAME, scanner)
       when scanner.scan(/,/)
         @current_token = Token.build(:kCOMMA, scanner)
       when scanner.scan(/==/)
@@ -104,7 +104,7 @@ module WhileLSP
       when scanner.scan(/%/)
         @current_token = Token.build(:kMOD, scanner)
       when scanner.scan(/\d+/)
-        @current_token = Token.build(:kINT, scanner)
+        @current_token = Token.build(:tINT, scanner)
       else
         raise Error.new([scanner.charpos, src.size], "Unexpected token: #{scanner.rest}")
       end
@@ -129,12 +129,12 @@ module WhileLSP
       program = [] #: SyntaxTree::program
 
       loop do
-        case current_token!.type
-        when :kEOF
+        case
+        when current_token?(:kEOF)
           return program
-        when :kFUNCTION
+        when current_token?(:kFUNCTION)
           program << parse_function_decl()
-        when :kECHO, :kVARNAME, :kWHILE, :kIF, :kFUNCNAME
+        when current_token?(:kECHO, :tVARNAME, :kWHILE, :kIF, :tFUNCNAME)
           program << parse_statement()
         else
           raise Error.new(current_token!.range, "Unexpected token: #{current_token.inspect}")
@@ -144,14 +144,12 @@ module WhileLSP
 
     def parse_function_decl()
       start_token = consume(:kFUNCTION)
-      name = consume(:kFUNCNAME).value
+      name = consume(:tFUNCNAME).value
       consume(:kLPAREN)
       params = [] #: Array[String]
       while true
-        params << consume(:kVARNAME).value
-        if (current_token!.type == :kRPAREN)
-          break
-        end
+        params << consume(:tVARNAME).value
+        break if current_token?(:kRPAREN)
         consume(:kCOMMA)
       end
       consume(:kRPAREN)
@@ -185,7 +183,7 @@ module WhileLSP
         consume(:kSEMICOLON)
         SyntaxTree::ReturnStatement.new(expr, concat_range(return_token.range, expr.range))
 
-      when name_token = consume_token?(:kVARNAME)
+      when name_token = consume_token?(:tVARNAME)
         name = name_token.value
         consume(:kEQ)
         expr = parse_expr()
@@ -230,7 +228,7 @@ module WhileLSP
 
         SyntaxTree::WhileStatement.new(condition, body, concat_range(while_token.range, close_token.range))
 
-      when current_token?(:kFUNCNAME)
+      when current_token?(:tFUNCNAME)
         expr = parse_expr() #: SyntaxTree::FunctionCallExpr
         consume(:kSEMICOLON)
         SyntaxTree::FunctionCallStatement.new(expr, expr.range)
@@ -371,9 +369,9 @@ module WhileLSP
 
     def parse_expr0
       case
-      when tok = consume_token?(:kVARNAME)
+      when tok = consume_token?(:tVARNAME)
         SyntaxTree::VarExpr.new(tok.value, tok.range)
-      when tok = consume_token?(:kINT)
+      when tok = consume_token?(:tINT)
         SyntaxTree::IntExpr.new(Integer(tok.value), tok.range)
       when tok = consume_token?(:kPHPEOL)
         SyntaxTree::PHPEOLExpr.new(tok.range)
@@ -381,7 +379,7 @@ module WhileLSP
         expr = parse_expr()
         consume(:kRPAREN)
         expr
-      when name_token = consume_token?(:kFUNCNAME)
+      when name_token = consume_token?(:tFUNCNAME)
         name = name_token.value
         args = [] #: Array[SyntaxTree::expr]
 
