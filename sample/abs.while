@@ -1,0 +1,14 @@
+<?php
+
+// 絶対値を計算する
+// 関数名がAbsでないのはPHPに既にあるから……
+function Abs1($x) {
+  if ($x < 0) {
+    return 0 - $x;
+  } else {
+    return $x;
+  }
+}
+
+echo Abs1(5), PHP_EOL;
+echo Abs1(0 - 5), PHP_EOL;   // 負の数を書くことができないので、引き算を使う

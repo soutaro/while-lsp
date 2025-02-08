@@ -1,7 +1,9 @@
+<?php
+
 function Factorial($n) {
   if ($m == 0) {
     return 1;
-  }} else {
+  }} else {                       // 閉じ括弧(})が多い
     return $n * Factorial($n - 1);
   }
 }

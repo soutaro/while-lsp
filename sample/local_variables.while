@@ -1,0 +1,17 @@
+<?php
+
+// ローカル変数の名前がAとB、トップレベルで重複しているので、単純に書き換えると意図しない結果になる
+
+function A($x, $y) {
+  return $x + $y;
+}
+
+function B($x, $y) {
+  return $x - $y;
+}
+
+$x = 1;
+$y = 2;
+
+echo A($x, $y), PHP_EOL;
+echo B($x, $y), PHP_EOL;

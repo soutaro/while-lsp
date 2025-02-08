@@ -1,12 +1,6 @@
 <?php
 
-function Abs1($x) {
-  if ($x < 0) {
-    return 0 - $x;
-  } else {
-    return $x;
-  }
-}
+// 最大公約数 (Greatest common divider -- GCD) を計算する
 
 function GCD($x, $y) {
   if ($x == 0) {
@@ -23,4 +17,6 @@ function GCD($x, $y) {
   }
 }
 
+echo GCD(1, 5), PHP_EOL;
+echo GCD(11, 55), PHP_EOL;
 echo GCD(15, 5), PHP_EOL;

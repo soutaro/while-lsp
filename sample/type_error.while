@@ -1,9 +1,11 @@
+<?php
+
 function Factorial($n) {
-  if ($m == 0) {
+  if ($m == 0) {       // ローカル変数名の間違いを検出する
     return 1;
   } else {
     return $n * Factorial($n - 1);
   }
 }
 
-Factorial(1, 2);
+Factorial(1, 2);       // 引数の数が合わない
