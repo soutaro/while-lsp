@@ -8,7 +8,7 @@ module WhileLSP
 
     def start()
       lsp_loop do |method, id, params|
-        STDERR.puts "Received a message from client: method=#{method.inspect}, id=#{id.inspect}, params=#{params.to_json[0, 100].inspect}"
+        STDERR.puts "Received a message from client: method=#{method.inspect}, id=#{id.inspect}, params=#{params.to_json[0, 150].inspect}"
 
         case method
         when "initialize"
@@ -189,7 +189,7 @@ module WhileLSP
       message = { id: id, result: result, jsonrpc: "2.0" }
       json = message.to_json
 
-      STDERR.puts "Sending a response to client: id=#{id.inspect}, result=#{result.to_json[0, 100].inspect}"
+      STDERR.puts "Sending a response to client: id=#{id.inspect}, result=#{result.to_json[0, 150].inspect}"
       STDOUT.write("Content-Length: #{json.bytesize}\r\n\r\n#{json}")
       STDOUT.flush
     end
@@ -198,7 +198,7 @@ module WhileLSP
       message = { method: method, params: params, jsonrpc: "2.0" }
       json = message.to_json
 
-      STDERR.puts "Sending a notification to client: method=#{method.inspect}, params=#{params.to_json[0, 100].inspect}"
+      STDERR.puts "Sending a notification to client: method=#{method.inspect}, params=#{params.to_json[0, 150].inspect}"
       STDOUT.write("Content-Length: #{json.bytesize}\r\n\r\n#{json}")
       STDOUT.flush
     end
