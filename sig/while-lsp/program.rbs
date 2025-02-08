@@ -1,22 +1,37 @@
 module WhileLSP
+  # WhileLSPのプログラムは、一つのソースコードで表現されることにする
+  # つまり、複数のファイルにまたがったプログラムを書くことはできない
+  #
   class Program
+    # ファイルのURI
     attr_reader uri: String
 
     # ソースコードのテキスト
     attr_reader src: String
 
     # 構文木
-    attr_reader syntax: SyntaxTree::program | Parser::Error | nil
+    #
+    # - 構文解析できた場合にはSyntaxTree::program
+    # - 失敗したときにはParser::Error
+    #
+    attr_reader syntax: SyntaxTree::program | Parser::Error
 
+    # 型検査の結果
+    #
+    # - 構文解析できたときにはTypeCheckerのオブジェクト
+    # - 構文解析失敗したときには nil
     attr_reader typechecker: TypeChecker?
 
     def initialize: (String uri) -> void
 
+    # ソースコードを更新して、syntaxとtypecheckerの値を更新する
     def update: (String text) -> void
 
     @diagnostics: Array[diagnostic]
 
-    def diagnostics: () -> Array[diagnostic]?
+    # 型エラー、構文エラーが保存されている
+    #
+    def diagnostics: () -> Array[diagnostic]
 
     # Returns the character position from (zero-origin) line and character
     #

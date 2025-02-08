@@ -1,23 +1,20 @@
 module WhileLSP
   class TypeChecker
-    Function = Data.define(:name, :params, :env, :body, :range)
+    Function = Data.define(:name, :params, :body, :range)
 
     attr_reader :functions
 
     attr_reader :toplevel
 
-    attr_reader :toplevel_env
-
     attr_reader :diagnostics
 
     def initialize(program)
       @functions = {}
-      @toplevel_env = {}
       @diagnostics = []
 
       program.each do |decl|
         if decl.is_a?(SyntaxTree::FunctionDeclaration)
-          functions[decl.name] = Function.new(decl.name, decl.params, {}, decl.body, decl.range)
+          functions[decl.name] = Function.new(decl.name, decl.params, decl.body, decl.range)
         end
       end
 
@@ -33,15 +30,17 @@ module WhileLSP
         type_check_function(function)
       end
 
-      type_check_statement(toplevel, toplevel_env)
+      type_check_statement(toplevel, {})
     end
 
     def type_check_function(function)
+      env = {} #: type_env
+
       function.params.each do |param|
-        function.env[param] = :int
+        env[param] = :int
       end
 
-      type_check_statement(function.body, function.env)
+      type_check_statement(function.body, env)
     end
 
     def type_check_statement(stmts, env)

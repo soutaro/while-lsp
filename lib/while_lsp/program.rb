@@ -2,10 +2,8 @@ module WhileLSP
   class Program
     attr_reader :uri
 
-    # ソースコードのテキスト
     attr_reader :src
 
-    # 構文木
     attr_reader :syntax
 
     attr_reader :typechecker
@@ -37,7 +35,7 @@ module WhileLSP
       when typechecker
         typechecker.diagnostics
       else
-        nil
+        raise
       end
     end
 

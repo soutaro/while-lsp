@@ -6,7 +6,7 @@ module WhileLSP
 
     def start: () -> void
 
-    def lsp_diagnostics: (String uri, Program) -> { uri: String, diagnostics: Array[untyped] }?
+    def lsp_diagnostics: (String uri, Program) -> { uri: String, diagnostics: Array[untyped] }
 
     def lsp_loop: () { (String, Integer?, untyped) -> void } -> void
 

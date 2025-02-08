@@ -43,9 +43,7 @@ module WhileLSP
           text = params[:textDocument][:text]
           open_files[uri] = program = Program.new(uri)
           program.update(text)
-          if diagnostics = lsp_diagnostics(uri, program)
-            lsp_notification "textDocument/publishDiagnostics", diagnostics
-          end
+          lsp_notification "textDocument/publishDiagnostics", lsp_diagnostics(uri, program)
 
         when "textDocument/didChange"
           # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_didChange
@@ -53,9 +51,7 @@ module WhileLSP
           text = params[:contentChanges][0][:text]
           program = open_files[uri]
           program.update(text)
-          if diagnostics = lsp_diagnostics(uri, program)
-            lsp_notification "textDocument/publishDiagnostics", diagnostics
-          end
+          lsp_notification "textDocument/publishDiagnostics", lsp_diagnostics(uri, program)
 
         when "textDocument/didClose"
           # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_didClose
@@ -157,26 +153,24 @@ module WhileLSP
     end
 
     def lsp_diagnostics(uri, program)
-      if diagnostics = program.diagnostics
-        {
-          uri: uri,
-          diagnostics: diagnostics.map do |range, code, message|
-            start_line, start_char = program.line_char(range[0])
-            end_line, end_char = program.line_char(range[1])
+      {
+        uri: uri,
+        diagnostics: program.diagnostics.map do |range, code, message|
+          start_line, start_char = program.line_char(range[0])
+          end_line, end_char = program.line_char(range[1])
 
-            {
-              range: {
-                start: { line: start_line, character: start_char },
-                end: { line: end_line, character: end_char },
-              },
-              severity: 1, # 1: Error, 2: Warning, 3: Information, 4: Hint
-              code: code,
-              source: "WhileLSP",
-              message: message,
-            }
-          end
-        }
-      end
+          {
+            range: {
+              start: { line: start_line, character: start_char },
+              end: { line: end_line, character: end_char },
+            },
+            severity: 1, # 1: Error, 2: Warning, 3: Information, 4: Hint
+            code: code,
+            source: "WhileLSP",
+            message: message,
+          }
+        end
+      }
     end
 
     def lsp_loop()

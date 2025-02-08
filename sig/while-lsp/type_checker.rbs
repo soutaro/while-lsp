@@ -2,36 +2,54 @@ use WhileLSP::SyntaxTree::statement, WhileLSP::SyntaxTree::expr, WhileLSP::Synta
 
 module WhileLSP
   class TypeChecker
+    # 関数のデータ
     class Function
+      # 関数名
       attr_reader name: String
 
+      # 引数の名前
       attr_reader params: Array[String]
 
-      attr_reader env: type_env
-
+      # 関数の本体
       attr_reader body: Array[SyntaxTree::statement]
 
+      # 関数定義の位置
       attr_reader range: range
 
-      def initialize: (String name, Array[String] params, type_env env, Array[statement] body, range range) -> void
+      def initialize: (String name, Array[String] params, Array[statement] body, range range) -> void
     end
 
+    # プログラム内で定義されている関数の一覧
+    #
+    # Hashのキーは関数名。
+    #
     attr_reader functions: Hash[String, Function]
 
+    # トップレベルのstatement
+    #
     attr_reader toplevel: Array[statement]
 
-    attr_reader toplevel_env: type_env
-
+    # 型検査で発見された型エラー
     attr_reader diagnostics: Array[diagnostic]
 
     def initialize: (program) -> void
 
+    # 与えられたプログラムを型検査して、`diagnostics`にエラーを保存する
     def type_check: () -> void
 
+    # 関数定義の本体を型検査する
     def type_check_function: (Function) -> void
 
+    # statementを型検査して、型環境を返す
+    #
+    # ローカル変数の代入があるので、型環境は更新されることがある。
+    #
     def type_check_statement: (Array[statement], type_env env) -> type_env
 
+    # 式の型検査をする
+    #
+    # ローカル変数の代入はstatementなので、型環境が更新されることはない。
+    #
     def type_check_expr: (expr, type_env env) -> ty
 
     def merge_env: (type_env, type_env) -> type_env
