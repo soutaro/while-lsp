@@ -33,7 +33,7 @@ async function start() {
 
 		client = new LanguageClient(
 			'WhileLSP',
-			'WhileLSP Demo',
+			'WhileLSP',
 			serverOptions,
 			clientOptions
 		)

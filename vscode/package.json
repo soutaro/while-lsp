@@ -35,7 +35,7 @@
     "commands": [
       {
         "command": "while-lsp.start",
-        "title": "Start WhileLSP language server"
+        "title": "WhileLSP: Start/restart language server"
       }
     ],
     "configuration": [
