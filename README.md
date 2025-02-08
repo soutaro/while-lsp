@@ -45,6 +45,14 @@ JSONやESLintなどのlanguage serverがなにかしているみたいです。
 開発環境でプログラムを修正したら、動作確認用のVSCodeで `WhileLSP: Start/restart language server` コマンドを使ってLanguage serverを再起動します。
 VSCodeの `OUTPUT` から、デバッグプリントを確認することができます。
 
+また、動作確認用の環境にはPHPが含まれています。Terminalを開いて、
+
+```
+$ php gcd.while
+```
+
+などとすると、プログラムを実行できます。
+
 ## その他
 
 * `vscode` ディレクトリにはVSCodeのExtensionが含まれています。講義では取り扱いません。
