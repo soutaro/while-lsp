@@ -1,6 +1,6 @@
 {
   "scopeName": "source.while",
-  "patterns": [{ "include": "#keyword" }, { "include": "#functionName" }, { "include": "#variables" }, { "include": "#phpcomment" }],
+  "patterns": [{ "include": "#keyword" }, { "include": "#functionName" }, { "include": "#variables" }, { "include": "#phpcomment" }, { "include": "#linecomment" }],
   "repository": {
     "keyword": {
       "match": "\\b(while|if|echo|return|function|else)\\b",
@@ -17,6 +17,10 @@
     "phpcomment": {
       "match": "<\\?php",
       "name": "comment.while"
+    },
+    "linecomment": {
+      "match": "//.*",
+      "name": "comment.line.double-slash.while"
     }
   }
 }
