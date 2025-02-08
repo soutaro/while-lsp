@@ -22,7 +22,8 @@ module WhileLSP
               hoverProvider: true,
               documentSymbolProvider: true,
               definitionProvider: true,
-              renameProvider: true
+              renameProvider: true,
+              referencesProvider: true
             }
           })
 
@@ -136,6 +137,12 @@ module WhileLSP
 
         when "textDocument/definition"
           # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_definition
+
+          id or raise
+          lsp_response(id, [])
+
+        when "textDocument/references"
+          # https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_references
 
           id or raise
           lsp_response(id, [])
